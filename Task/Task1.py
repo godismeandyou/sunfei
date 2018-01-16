@@ -19,13 +19,6 @@ with open('calls.csv', 'r') as f:
 # 短信和通话记录中一共有多少电话号码？每个号码只统计一次。
 # 输出信息：
 # "There are <count> different telephone numbers in the records."""
-def qc(source):
-    target = []
-    for a in source:
-        if a not in target:
-            target.append(a)
-    return target
-
 a = {}
 for item in texts:
     if item[0] in a:
@@ -47,4 +40,4 @@ for item in calls:
     else:
         a[item[1]] = 1
 
-print len(a)
+print (len(set(list(a.keys()))))

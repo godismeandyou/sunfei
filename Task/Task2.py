@@ -36,5 +36,4 @@ for item in calls:
     else:
         a[item[1]] = int(item[3])
 s = sorted(a.items(),key=operator.itemgetter(1))
-# print s[-1][0]
-print "<telephone number> spent the longest time, <"+s[-1][0]+"> seconds, on the phone during"
+print ("<{0}> spent the longest time, <{1}> seconds, on the phone during").format(s[-1][0],s[-1][1])

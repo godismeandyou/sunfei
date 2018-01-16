@@ -41,7 +41,8 @@ to other fixed lines in Bangalore."
 """
 
 lore = []
-lorelen = []
+lorelenA = []
+lorelenB = []
 for call in calls:
     if call[0].startswith("(080)"):
         if call[1].startswith("("):
@@ -52,8 +53,12 @@ for call in calls:
 for call in calls:
     if call[0].startswith("(080)"):
         if call[1].startswith("(080)"):
-            lorelen.append(call[1])
-# print (len(lorelen))
-# print len(lore)
-a = round(float(len(lorelen))/float(len(lore)),2)
-print (str(int(a*100)) + " percent of calls from fixed lines in Bangalore are call sto other fixed lines in Bangalore.")
+            lorelenA.append(call[1])
+        lorelenB.append(call[1])
+a = round(float(len(lorelenA))/float(len(lore)),2)
+
+print ("The numbers called by people in Bangalore have codes:")
+set(lorelenB)
+for d in lorelenB:
+    print d
+print ("{} percent of calls from fixed lines in Bangalore are call sto other fixed lines in Bangalore.").format(a)
