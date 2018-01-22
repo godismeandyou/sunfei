@@ -40,4 +40,4 @@ for item in calls:
     else:
         a[item[1]] = 1
 
-print (len(set(list(a.keys()))))
+print ("There are <{}> different telephone numbers in the records.".format(len(set(list(a.keys())))))

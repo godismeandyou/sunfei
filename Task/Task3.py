@@ -60,5 +60,5 @@ a = round(float(len(lorelenA))/float(len(lore)),2)
 print ("The numbers called by people in Bangalore have codes:")
 set(lorelenB)
 for d in lorelenB:
-    print d
+    print (d)
 print ("{} percent of calls from fixed lines in Bangalore are call sto other fixed lines in Bangalore.").format(a)

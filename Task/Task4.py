@@ -42,4 +42,4 @@ a = callOut - callIn - textOutIn
 print ("These numbers could be telemarketers: ")
 set(a)
 for d in a:
-    print d
+    print (d)
