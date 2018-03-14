@@ -5,6 +5,7 @@
 """
 import csv
 import operator
+
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
@@ -35,5 +36,5 @@ for item in calls:
         a[item[1]] += int(item[3])
     else:
         a[item[1]] = int(item[3])
-s = sorted(a.items(),key=operator.itemgetter(1))
-print ("<{}> spent the longest time, <{}> seconds, on the phone during").format(s[-1][0],s[-1][1])
+s = sorted(a.items(), key=operator.itemgetter(1))
+print ('%s spent the longest time, %d seconds, on the phone during September 2016.' %(s[-1][0],s[-1][1]))

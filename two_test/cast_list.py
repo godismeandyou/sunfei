@@ -12,7 +12,6 @@ def create_cast_list(filename):
     cast_list = []
     with open(filename) as f:
         for line in f:
-            line_data = line.split(',')
             cast_list.append(line_data[0])
     return cast_list
 
