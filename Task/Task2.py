@@ -15,7 +15,7 @@ with open('calls.csv', 'r') as f:
     calls = list(reader)
 
 # """
-# 任务2: 哪个电话号码的通话总时间最长? 不要忘记，用于接听电话的时间也是通话时间的一部分。
+# 任务2: 哪个电话号码的通话总时间最长? 不要忘记，用于接听电话的时间也是通话时间的一部分.。
 # 输出信息:
 # "<telephone number> spent the longest time, <total time> seconds, on the phone during
 # September 2016.".
