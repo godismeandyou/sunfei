@@ -40,6 +40,5 @@ callIn = set(callIn)
 textOutIn = set(textOutIn)
 a = callOut - callIn - textOutIn
 print ("These numbers could be telemarketers: ")
-sorted(a)
-for d in a:
+for d in sorted(a):
     print (d)
