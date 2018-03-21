@@ -3,12 +3,18 @@ import expanddouban
 from bs4 import BeautifulSoup
 import csv
 
+
 # 任务1:获取每个地区、每个类型页面的URL
 def getMovieUrl(category, location):
     url = "https://movie.douban.com/tag/#/?sort=S&range=9,10&tags=电影,{},{}".format(category, location)
     return url
 
-# 任务3
+
+# p = getMovieUrl('剧情','美国')
+# print p
+
+
+# 任务3:定义电影类
 class Movie:
     def __init__(self, name, rate, location, category, info_link, cover_link):
         self.name = name
@@ -19,68 +25,67 @@ class Movie:
         self.cover_link = cover_link
 
 
-# 任务4
-"""
-return a list of Movie objects with the given category and location.
-"""
+# html = expanddouban.getHtml(getMovieUrl('剧情','美国'), True)
+# print html
 
 
+# 任务4:获得豆瓣电影的信息
 def getMovies(category, location):
-    movies = []
-    for cat in category:
-        for loc in location:
-            html = expanddouban.getHtml(getMovieUrl(cat, loc), True)
-            soup = BeautifulSoup(html, 'html.parser')
-            a_tags = soup.find(class_='list-wp').find_all('a', recursive=False)
-            for a_tag in a_tags:
-                m_name = a_tag.find(class_='title').string
-                m_rate = a_tag.find(class_='rate').string
-                m_location = loc
-                m_category = cat
-                m_info_link = a_tag.get('href')
-                m_cover_link = a_tag.find('img').get('src')
-                movies.append([m_name, m_rate, m_location, m_category, m_info_link, m_cover_link])
-    return movies
+    aa = []
+    for aa in category:
+        for cc in location:
+            url = expanddouban.getHtml(getMovieUrl(aa, cc), True)
+            beautiful = BeautifulSoup(url, 'html.parser')
+            tag = beautiful.find(class_='list-wp').find_all('a', recursive=False)
+            for aTag in tag:
+                a1 = aTag.find(class_='title').string
+                a2 = aTag.find(class_='rate').string
+                a3 = cc
+                a4 = aa
+                a6 = aTag.get('href')
+                a7 = aTag.find('img').get('src')
+                aa.append([a1, a2, a3, a4, a6, a7])
+    return aa
+# ab = getMovies('剧情','美国')
+# print ab
 
 
-# 任务5
-category_list = ['动作', '喜剧', '爱情']
-location_list = ['大陆', '美国', '香港', '台湾', '日本', '韩国', '英国', '法国', '德国', '意大利', '西班牙', '印度', '泰国', '俄罗斯', '伊朗', '加拿大', '澳大利亚', '爱尔兰', '瑞典', '巴西', '丹麦']
-movies_list = getMovies(category_list, location_list)
+# 任务5:构造电影信息数据表
+categoryList = ['动作', '喜剧', '爱情']
+locationList = ['大陆', '美国', '香港', '台湾', '日本', '韩国', '英国', '法国',
+                 '德国', '意大利', '西班牙', '印度', '泰国', '俄罗斯', '伊朗',
+                 '加拿大', '澳大利亚', '爱尔兰', '瑞典', '巴西', '丹麦']
+
+moviesList = getMovies(categoryList, locationList)
 with open('movies.csv', 'w') as f:
-    writer = csv.writer(f)
-    for row in movies_list:
-        writer.writerow(row)
+    writers = csv.writer(f)
+    for hang in moviesList:
+        writers.writerow(hang)
 
-# 任务6
+
+# 任务6:统计电影数据
 with open('movies.csv', 'r') as f:
     reader = csv.reader(f)
-    movies_csv = list(reader)
-
-message = '{}电影数量排名前三的地区是{}、{}、{}，分别占此类别电影总数的百分比为{}、{}、{}。\n'
+    csvNum = list(reader)
 
 
-# 计算单个地区电影数量与总量的百分比
-def percentage(count, sum):
-    pct = '%.2f%%' % (count / sum * 100)
-    return pct
+for cat in categoryList:
+    aa = []
+    shuzu = []
+    sum = 0
+    for loc in locationList:
+        count = 0
+        for movie in csvNum:
+            if movie[3] == cat and movie[2] == loc:
+                count += 1
+                sum += 1
+        aa.append((loc, count))
+        aa = sorted(aa, key=lambda x: x[1], reverse=True)
 
 
-with open('output.txt', 'w') as f:
-    for cat in category_list:
-        temp = []
-        sum = 0
-        for loc in location_list:
-            count = 0
-            for movie in movies_csv:
-                if movie[3] == cat and movie[2] == loc:
-                    count += 1
-                    sum += 1
-            temp.append((loc, count))
-            temp = sorted(temp, key=lambda x: x[1], reverse=True)
+    for i in range(3):
+        shuzu.append('%.2f%%' % (float(aa[i][1]) / float(sum) * 100))
 
-        pct = []
-        for i in range(3):
-            pct.append(percentage(temp[i][1], sum))
-
-        f.write(message.format(cat, temp[0][0], temp[1][0], temp[2][0], pct[0], pct[1], pct[2]))
+    result = (('{}电影数量排名前三的地区是{}、{}、{}，分别占此类别电影总数的百分比为{}、{}、{}。\n').format(cat, aa[0][0], aa[1][0], aa[2][0], shuzu[0], shuzu[1], shuzu[2]))
+    with open('output.txt', 'a') as f:
+        f.write("\n"+result)
